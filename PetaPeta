@@ -7,12 +7,12 @@ local function createMainGui()
     ScreenGui.ResetOnSpawn = false
     ScreenGui.Parent = player:WaitForChild("PlayerGui")
 
-    -- Frame utama (background hitam)
+    -- Frame utama
     local MainFrame = Instance.new("Frame")
     MainFrame.Name = "MainFrame"
     MainFrame.BackgroundColor3 = Color3.new(0,0,0)
-    MainFrame.Size = UDim2.new(0.8, 0, 0.7, 0)
-    MainFrame.Position = UDim2.new(0.1, 0, 0.15, 0)
+    MainFrame.Size = UDim2.new(0.7, 0, 0.5, 0)
+    MainFrame.Position = UDim2.new(0.15, 0, 0.25, 0)
     MainFrame.BorderSizePixel = 2
     MainFrame.Active = true
     MainFrame.Draggable = true
@@ -22,7 +22,7 @@ local function createMainGui()
     local Sidebar = Instance.new("Frame")
     Sidebar.Name = "Sidebar"
     Sidebar.BackgroundColor3 = Color3.new(0,0,0)
-    Sidebar.Size = UDim2.new(0.22, 0, 1, 0)
+    Sidebar.Size = UDim2.new(0.24, 0, 1, 0)
     Sidebar.Position = UDim2.new(0, 0, 0, 0)
     Sidebar.BorderSizePixel = 0
     Sidebar.Parent = MainFrame
@@ -34,69 +34,63 @@ local function createMainGui()
     Title.TextSize = 30
     Title.TextColor3 = Color3.new(1,1,1)
     Title.BackgroundTransparency = 1
-    Title.Size = UDim2.new(1, -10, 0, 50)
-    Title.Position = UDim2.new(0, 5, 0, 10)
+    Title.Size = UDim2.new(1, -10, 0, 48)
+    Title.Position = UDim2.new(0, 5, 0, 12)
     Title.TextXAlignment = Enum.TextXAlignment.Left
     Title.Parent = Sidebar
 
-    -- SCROLLINGFRAME untuk tab
-    local TabsScrolling = Instance.new("ScrollingFrame")
-    TabsScrolling.Name = "TabsScrolling"
-    TabsScrolling.Position = UDim2.new(0, 0, 0, 65)
-    TabsScrolling.Size = UDim2.new(1, 0, 1, -70)
-    TabsScrolling.BackgroundTransparency = 1
-    TabsScrolling.BorderSizePixel = 0
-    TabsScrolling.CanvasSize = UDim2.new(0, 0, 0, 0)
-    TabsScrolling.ScrollBarThickness = 6
-    TabsScrolling.VerticalScrollBarInset = Enum.ScrollBarInset.ScrollBar
-    TabsScrolling.Parent = Sidebar
+    -- Garis hiasan di bawah tulisan "Bayu hub"
+    local Decoration = Instance.new("Frame")
+    Decoration.Size = UDim2.new(1, -20, 0, 3)
+    Decoration.Position = UDim2.new(0, 10, 0, 56)
+    Decoration.BackgroundColor3 = Color3.fromRGB(0,120,255)
+    Decoration.BorderSizePixel = 0
+    Decoration.Parent = Sidebar
 
-    -- UIListLayout untuk menata tombol secara vertikal
-    local layout = Instance.new("UIListLayout")
-    layout.Parent = TabsScrolling
-    layout.SortOrder = Enum.SortOrder.LayoutOrder
-    layout.Padding = UDim.new(0, 8)
-
-    -- Daftar tab
-    local menuNames = {"tap 1", "tap 2", "tap 3", "tap 4", "tap 5", "tap 6", "tap 7", "tap 8", "tap 9", "tap 10"}
-
+    -- Tab Buttons (2 tab)
+    local tabNames = {"ESP", "Kosong"}
     local tabButtons = {}
-    for i, name in ipairs(menuNames) do
+    local TabsFrame = Instance.new("Frame")
+    TabsFrame.Name = "TabsFrame"
+    TabsFrame.Position = UDim2.new(0, 0, 0, 70)
+    TabsFrame.Size = UDim2.new(1, 0, 0, 90)
+    TabsFrame.BackgroundTransparency = 1
+    TabsFrame.Parent = Sidebar
+
+    local layout = Instance.new("UIListLayout")
+    layout.Parent = TabsFrame
+    layout.SortOrder = Enum.SortOrder.LayoutOrder
+    layout.Padding = UDim.new(0, 12)
+
+    for i, name in ipairs(tabNames) do
         local Button = Instance.new("TextButton")
         Button.Text = name
         Button.Font = Enum.Font.SourceSans
         Button.TextSize = 24
         Button.TextColor3 = Color3.new(1,1,1)
-        Button.BackgroundColor3 = Color3.new(0,0,0)
+        Button.BackgroundColor3 = Color3.fromRGB(30,30,30)
         Button.BorderColor3 = Color3.fromRGB(180,180,180)
         Button.Size = UDim2.new(1, -16, 0, 38)
         Button.LayoutOrder = i
-        Button.Parent = TabsScrolling
+        Button.Parent = TabsFrame
         tabButtons[i] = Button
     end
 
-    -- Otomatis atur tinggi canvas
-    local function updateCanvas()
-        TabsScrolling.CanvasSize = UDim2.new(0, 0, 0, layout.AbsoluteContentSize.Y + 8)
-    end
-    layout:GetPropertyChangedSignal("AbsoluteContentSize"):Connect(updateCanvas)
-    updateCanvas()
-
-    -- Garis pembatas vertikal di tengah antara sidebar dan konten utama
+    -- Garis pembatas vertikal
     local Separator = Instance.new("Frame")
     Separator.Name = "Separator"
     Separator.Size = UDim2.new(0, 2, 1, 0)
-    Separator.Position = UDim2.new(0.22, 0, 0, 0)
+    Separator.Position = UDim2.new(0.24, 0, 0, 0)
     Separator.BackgroundColor3 = Color3.fromRGB(180,180,180)
     Separator.BorderSizePixel = 0
     Separator.Parent = MainFrame
     Separator.ZIndex = 10
 
-    -- Header bar (kanan atas)
+    -- Header bar
     local Header = Instance.new("Frame")
     Header.BackgroundColor3 = Color3.fromRGB(30,30,30)
-    Header.Size = UDim2.new(0.78, 0, 0, 38)
-    Header.Position = UDim2.new(0.22, 0, 0, 0)
+    Header.Size = UDim2.new(0.76, 0, 0, 38)
+    Header.Position = UDim2.new(0.24, 0, 0, 0)
     Header.Parent = MainFrame
 
     -- Tombol minimize
@@ -112,7 +106,7 @@ local function createMainGui()
 
     -- Tombol close
     local CloseButton = Instance.new("TextButton")
-    CloseButton.Text = "×"
+    CloseButton.Text = "Ã—"
     CloseButton.Font = Enum.Font.SourceSansBold
     CloseButton.TextSize = 26
     CloseButton.TextColor3 = Color3.new(1,1,1)
@@ -121,68 +115,78 @@ local function createMainGui()
     CloseButton.Position = UDim2.new(1, -38, 0, 0)
     CloseButton.Parent = Header
 
-    -- Konten utama (kotak hitam besar)
+    -- Konten utama
     local Content = Instance.new("Frame")
     Content.BackgroundColor3 = Color3.new(0,0,0)
-    Content.Position = UDim2.new(0.22, 2, 0, 38)
-    Content.Size = UDim2.new(0.78, -2, 1, -38)
+    Content.Position = UDim2.new(0.24, 2, 0, 38)
+    Content.Size = UDim2.new(0.76, -2, 1, -38)
     Content.Parent = MainFrame
 
-    -- Section Panel ESP MAP (atas, draggable)
-    local SectionPanel = Instance.new("TextButton")
-    SectionPanel.Name = "SectionPanel"
-    SectionPanel.Size = UDim2.new(0, 280, 0, 44)
-    SectionPanel.Position = UDim2.new(0.5, -140, 0.13, 0)
-    SectionPanel.BackgroundColor3 = Color3.fromRGB(30,30,30)
-    SectionPanel.BorderColor3 = Color3.fromRGB(120,120,120)
-    SectionPanel.Text = "esp map map :v"
-    SectionPanel.Font = Enum.Font.SourceSansBold
-    SectionPanel.TextSize = 22
-    SectionPanel.TextColor3 = Color3.new(1,1,1)
-    SectionPanel.Visible = false
-    SectionPanel.Parent = Content
-    SectionPanel.Active = true
-    SectionPanel.Draggable = true
+    -- ESP Page (tampil hanya di tab 1)
+    local ESPPage = Instance.new("Frame")
+    ESPPage.Name = "ESPPage"
+    ESPPage.BackgroundTransparency = 1
+    ESPPage.Size = UDim2.new(1, 0, 1, 0)
+    ESPPage.Position = UDim2.new(0,0,0,0)
+    ESPPage.Parent = Content
 
-    -- Section Panel ESP KEY (tengah, draggable)
-    local SectionKey = Instance.new("TextButton")
-    SectionKey.Name = "SectionKey"
-    SectionKey.Size = UDim2.new(0, 280, 0, 44)
-    SectionKey.Position = UDim2.new(0.5, -140, 0.28, 0)
-    SectionKey.BackgroundColor3 = Color3.fromRGB(30,30,30)
-    SectionKey.BorderColor3 = Color3.fromRGB(120,120,120)
-    SectionKey.Text = "Esp Key"
-    SectionKey.Font = Enum.Font.SourceSansBold
-    SectionKey.TextSize = 22
-    SectionKey.TextColor3 = Color3.new(1,1,1)
-    SectionKey.Visible = false
-    SectionKey.Parent = Content
-    SectionKey.Active = true
-    SectionKey.Draggable = true
+    -- ESP Buttons (Peta, Key, Pumpkin)
+    local espNames = {{"ESP Map", "Peta"}, {"ESP Key", "Key"}, {"ESP Pumpkin", "Pumpkin"}}
+    local espButtons = {}
+    local espLayout = Instance.new("UIListLayout")
+    espLayout.Parent = ESPPage
+    espLayout.SortOrder = Enum.SortOrder.LayoutOrder
+    espLayout.Padding = UDim.new(0, 14)
+    ESPPage.Padding = UDim.new(0, 16)
 
-    -- Section Panel ESP PUMPKIN (bawah, draggable)
-    local SectionPumpkin = Instance.new("TextButton")
-    SectionPumpkin.Name = "SectionPumpkin"
-    SectionPumpkin.Size = UDim2.new(0, 280, 0, 44)
-    SectionPumpkin.Position = UDim2.new(0.5, -140, 0.43, 0)
-    SectionPumpkin.BackgroundColor3 = Color3.fromRGB(30,30,30)
-    SectionPumpkin.BorderColor3 = Color3.fromRGB(255,120,0)
-    SectionPumpkin.Text = "Esp Pumpkin"
-    SectionPumpkin.Font = Enum.Font.SourceSansBold
-    SectionPumpkin.TextSize = 22
-    SectionPumpkin.TextColor3 = Color3.fromRGB(255,150,0)
-    SectionPumpkin.Visible = false
-    SectionPumpkin.Parent = Content
-    SectionPumpkin.Active = true
-    SectionPumpkin.Draggable = true
+    -- ESP states
+    local isEspMapActive = false
+    local isEspKeyActive = false
+    local isEspPumpkinActive = false
+    local stopEspMap, stopEspKey, stopEspPumpkin
 
-    -- ====== KODE LUA ESP MAP MAP :v (dieksekusi saat klik SectionPanel) ======
-    local function runEspScript()
-        if SectionPanel:FindFirstChild("ESPCODE") then return end -- agar tidak double jalan
+    for i, v in ipairs(espNames) do
+        local btn = Instance.new("TextButton")
+        btn.Text = v[1]
+        btn.Font = Enum.Font.SourceSansBold
+        btn.TextSize = 24
+        btn.TextColor3 = Color3.fromRGB(255,255,255)
+        btn.BackgroundColor3 = Color3.fromRGB(30,30,30)
+        btn.BorderColor3 = Color3.fromRGB(180,180,180)
+        btn.Size = UDim2.new(0, 190, 0, 42)
+        btn.LayoutOrder = i
+        btn.Parent = ESPPage
+        espButtons[i] = btn
+    end
 
-        local scriptHolder = Instance.new("Folder")
-        scriptHolder.Name = "ESPCODE"
-        scriptHolder.Parent = SectionPanel
+    -- "Kosong" page (tab 2)
+    local EmptyPage = Instance.new("Frame")
+    EmptyPage.Name = "EmptyPage"
+    EmptyPage.BackgroundTransparency = 1
+    EmptyPage.Size = UDim2.new(1, 0, 1, 0)
+    EmptyPage.Position = UDim2.new(0,0,0,0)
+    EmptyPage.Parent = Content
+    EmptyPage.Visible = false
+
+    local EmptyLabel = Instance.new("TextLabel")
+    EmptyLabel.Text = "Belum ada isi"
+    EmptyLabel.Font = Enum.Font.SourceSans
+    EmptyLabel.TextSize = 30
+    EmptyLabel.TextColor3 = Color3.fromRGB(220,220,220)
+    EmptyLabel.BackgroundTransparency = 1
+    EmptyLabel.Size = UDim2.new(1, 0, 1, 0)
+    EmptyLabel.Position = UDim2.new(0,0,0,0)
+    EmptyLabel.Parent = EmptyPage
+
+    -- ==== ESP MAP ====
+    local function runEspMap()
+        if isEspMapActive then return end
+        isEspMapActive = true
+        local running = true
+        local highlights = {}
+        local SectionPanel = Instance.new("Folder")
+        SectionPanel.Name = "ESPMAP"
+        SectionPanel.Parent = ESPPage
 
         local TARGET_PATHS = {
             "Workspace.Client.Enemy.ClientEnemy.petapeta_HW.Monster_Low",
@@ -190,9 +194,6 @@ local function createMainGui()
             "Workspace.Client.Enemy.ClientEnemy.petapeta_HW.Ofuda",
             "Workspace.Client.Enemy.ClientEnemy.petapeta_HW.rope"
         }
-
-        local highlights = {}
-        local lastVisible = false
 
         local function getInstanceFromPath(path)
             local cur = game
@@ -202,14 +203,12 @@ local function createMainGui()
             end
             return cur
         end
-
         local function clearHighlights()
             for _, h in ipairs(highlights) do
                 if h and h.Parent then h:Destroy() end
             end
             table.clear(highlights)
         end
-
         local function makeHighlight(part)
             if not part:IsA("BasePart") then return end
             local h = Instance.new("Highlight")
@@ -221,7 +220,6 @@ local function createMainGui()
             h.OutlineTransparency = 0.1
             table.insert(highlights, h)
         end
-
         local function applyHighlights()
             clearHighlights()
             for _, path in ipairs(TARGET_PATHS) do
@@ -239,33 +237,28 @@ local function createMainGui()
                 end
             end
         end
-
         local function showNotice()
             local gui = Instance.new("ScreenGui")
             gui.ResetOnSpawn = false
             gui.Parent = player:WaitForChild("PlayerGui")
-
             local text = Instance.new("TextLabel")
             text.Size = UDim2.new(1, 0, 0, 40)
             text.AnchorPoint = Vector2.new(0.5, 0)
             text.Position = UDim2.new(0.5, 0, 0, 40)
             text.BackgroundTransparency = 1
-            text.Text = "🗺️ Map: Wes metu"
+            text.Text = "ðŸ—ºï¸ Map: Wes metu"
             text.TextColor3 = Color3.fromRGB(255, 0, 0)
             text.TextStrokeTransparency = 0.4
             text.Font = Enum.Font.SourceSansBold
             text.TextSize = 28
             text.Parent = gui
-
             task.delay(5, function()
                 gui:Destroy()
             end)
         end
-
-        scriptHolder:SetAttribute("Stop", false)
-
+        local lastVisible = false
         task.spawn(function()
-            while scriptHolder.Parent and not scriptHolder:GetAttribute("Stop") do
+            while running and SectionPanel.Parent do
                 local visible = false
                 for _, path in ipairs(TARGET_PATHS) do
                     if getInstanceFromPath(path) then
@@ -273,7 +266,6 @@ local function createMainGui()
                         break
                     end
                 end
-
                 if visible and not lastVisible then
                     showNotice()
                     applyHighlights()
@@ -282,46 +274,39 @@ local function createMainGui()
                 elseif not visible and lastVisible then
                     clearHighlights()
                 end
-
                 lastVisible = visible
                 task.wait(2.5)
             end
             clearHighlights()
+            SectionPanel:Destroy()
         end)
-    end
-
-    local function stopEspScript()
-        local scriptHolder = SectionPanel:FindFirstChild("ESPCODE")
-        if scriptHolder then
-            scriptHolder:SetAttribute("Stop", true)
-            scriptHolder:Destroy()
+        stopEspMap = function()
+            running = false
+            isEspMapActive = false
         end
     end
 
-    -- ====== KODE ESP KEY (dieksekusi saat klik SectionKey) ======
-    local function runKeyEsp()
-        if SectionKey:FindFirstChild("KEYESP") then return end -- agar tidak double jalan
+    -- ==== ESP KEY ====
+    local function runEspKey()
+        if isEspKeyActive then return end
+        isEspKeyActive = true
+        local running = true
         local keyEsp = Instance.new("Folder")
         keyEsp.Name = "KEYESP"
-        keyEsp.Parent = SectionKey
-
+        keyEsp.Parent = ESPPage
         local Workspace = game:GetService("Workspace")
         local tagged = {}
-
         local function attachESP(model)
             if tagged[model] then return end
             tagged[model] = true
-
             local target = model:IsA("Model") and model:FindFirstChildWhichIsA("BasePart") or model
             if not target then return end
-
             local esp = Instance.new("BillboardGui")
             esp.Name = "ESPLabel"
             esp.Size = UDim2.new(0, 100, 0, 25)
             esp.AlwaysOnTop = true
             esp.StudsOffset = Vector3.new(0, 3, 0)
             esp.Parent = target
-
             local text = Instance.new("TextLabel")
             text.Size = UDim2.new(1, 0, 1, 0)
             text.BackgroundTransparency = 1
@@ -331,20 +316,15 @@ local function createMainGui()
             text.TextScaled = true
             text.Font = Enum.Font.SourceSansBold
             text.Parent = esp
-
             keyEsp.Destroying:Connect(function()
                 if esp and esp.Parent then esp:Destroy() end
                 tagged[model] = nil
             end)
         end
-
-        keyEsp:SetAttribute("Stop", false)
-
         task.spawn(function()
-            while keyEsp.Parent and not keyEsp:GetAttribute("Stop") do
+            while running and keyEsp.Parent do
                 for _, obj in ipairs(Workspace:GetDescendants()) do
                     if string.find(string.lower(obj.Name), "key") then
-                        -- ambil model teratas yang mengandung key
                         local top = obj
                         while top.Parent and not top.Parent:IsA("Workspace") and not tagged[top.Parent] and string.find(string.lower(top.Parent.Name), "key") do
                             top = top.Parent
@@ -354,24 +334,22 @@ local function createMainGui()
                 end
                 task.wait(3)
             end
-        end)
-    end
-
-    local function stopKeyEsp()
-        local keyEsp = SectionKey:FindFirstChild("KEYESP")
-        if keyEsp then
-            keyEsp:SetAttribute("Stop", true)
             keyEsp:Destroy()
+        end)
+        stopEspKey = function()
+            running = false
+            isEspKeyActive = false
         end
     end
 
-    -- ====== KODE ESP PUMPKIN (dieksekusi saat klik SectionPumpkin) ======
-    local function runPumpkinEsp()
-        if SectionPumpkin:FindFirstChild("PUMPKINESP") then return end -- agar tidak double jalan
+    -- ==== ESP PUMPKIN ====
+    local function runEspPumpkin()
+        if isEspPumpkinActive then return end
+        isEspPumpkinActive = true
+        local running = true
         local pumpkinEsp = Instance.new("Folder")
         pumpkinEsp.Name = "PUMPKINESP"
-        pumpkinEsp.Parent = SectionPumpkin
-
+        pumpkinEsp.Parent = ESPPage
         local targetMeshId = "rbxassetid://84793702900063"
         local function highlightPumpkin(v)
             if not v:FindFirstChild("PumpkinESP") then
@@ -384,7 +362,6 @@ local function createMainGui()
                 hl.Parent = v
             end
         end
-
         local function isPumpkin(v)
             if not v:IsA("MeshPart") then return false end
             if v.MeshId ~= targetMeshId then return false end
@@ -397,11 +374,9 @@ local function createMainGui()
             end
             return false
         end
-
         for _, v in ipairs(workspace:GetDescendants()) do
             if isPumpkin(v) then highlightPumpkin(v) end
         end
-
         local conn
         conn = workspace.DescendantAdded:Connect(function(v)
             if isPumpkin(v) then
@@ -409,78 +384,65 @@ local function createMainGui()
                 highlightPumpkin(v)
             end
         end)
-
         pumpkinEsp.Destroying:Connect(function()
             if conn then conn:Disconnect() end
-            -- Hapus highlight yang masih ada
             for _, v in ipairs(workspace:GetDescendants()) do
                 local h = v:FindFirstChild("PumpkinESP")
                 if h then h:Destroy() end
             end
         end)
-    end
-
-    local function stopPumpkinEsp()
-        local pumpkinEsp = SectionPumpkin:FindFirstChild("PUMPKINESP")
-        if pumpkinEsp then
+        stopEspPumpkin = function()
             pumpkinEsp:Destroy()
+            isEspPumpkinActive = false
         end
     end
 
-    -- Deteksi klik pada tab, show/hide section
-    for i, button in ipairs(tabButtons) do
-        button.MouseButton1Click:Connect(function()
-            if i == 1 then
-                SectionPanel.Visible = true
-                SectionKey.Visible = false
-                SectionPumpkin.Visible = false
-                stopKeyEsp()
-                stopPumpkinEsp()
-            elseif i == 2 then
-                SectionPanel.Visible = false
-                stopEspScript()
-                SectionKey.Visible = true
-                SectionPumpkin.Visible = false
-                stopPumpkinEsp()
-            elseif i == 3 then
-                SectionPanel.Visible = false
-                stopEspScript()
-                SectionKey.Visible = false
-                stopKeyEsp()
-                SectionPumpkin.Visible = true
-            else
-                SectionPanel.Visible = false
-                stopEspScript()
-                SectionKey.Visible = false
-                stopKeyEsp()
-                SectionPumpkin.Visible = false
-                stopPumpkinEsp()
-            end
-        end)
-    end
-
-    -- KLIK SectionPanel untuk menjalankan ESP MAP script
-    SectionPanel.MouseButton1Click:Connect(function()
-        runEspScript()
+    -- ESP Button Clicks (toggle ON/OFF)
+    espButtons[1].MouseButton1Click:Connect(function()
+        if not isEspMapActive then
+            runEspMap()
+            espButtons[1].BackgroundColor3 = Color3.fromRGB(0, 180, 90)
+        else
+            if stopEspMap then stopEspMap() end
+            espButtons[1].BackgroundColor3 = Color3.fromRGB(30,30,30)
+        end
+    end)
+    espButtons[2].MouseButton1Click:Connect(function()
+        if not isEspKeyActive then
+            runEspKey()
+            espButtons[2].BackgroundColor3 = Color3.fromRGB(0, 180, 90)
+        else
+            if stopEspKey then stopEspKey() end
+            espButtons[2].BackgroundColor3 = Color3.fromRGB(30,30,30)
+        end
+    end)
+    espButtons[3].MouseButton1Click:Connect(function()
+        if not isEspPumpkinActive then
+            runEspPumpkin()
+            espButtons[3].BackgroundColor3 = Color3.fromRGB(0, 180, 90)
+        else
+            if stopEspPumpkin then stopEspPumpkin() end
+            espButtons[3].BackgroundColor3 = Color3.fromRGB(30,30,30)
+        end
     end)
 
-    -- KLIK SectionKey untuk menjalankan ESP KEY script
-    SectionKey.MouseButton1Click:Connect(function()
-        runKeyEsp()
+    -- Tab logic
+    tabButtons[1].MouseButton1Click:Connect(function()
+        ESPPage.Visible = true
+        EmptyPage.Visible = false
+    end)
+    tabButtons[2].MouseButton1Click:Connect(function()
+        ESPPage.Visible = false
+        EmptyPage.Visible = true
     end)
 
-    -- KLIK SectionPumpkin untuk menjalankan ESP PUMPKIN script
-    SectionPumpkin.MouseButton1Click:Connect(function()
-        runPumpkinEsp()
-    end)
-
-    -- Tombol minimize (🗿), bagian dari ScreenGui, tapi di luar MainFrame
+    -- Tombol minimize (ðŸ—¿) di luar MainFrame
     local MiniButton = Instance.new("TextButton")
     MiniButton.Name = "MiniButton"
     MiniButton.Size = UDim2.new(0, 56, 0, 56)
     MiniButton.Position = UDim2.new(0, 32, 1, -88)
     MiniButton.AnchorPoint = Vector2.new(0,1)
-    MiniButton.Text = "🗿"
+    MiniButton.Text = "ðŸ—¿"
     MiniButton.Font = Enum.Font.SourceSansBold
     MiniButton.TextSize = 36
     MiniButton.TextColor3 = Color3.new(1,1,1)
@@ -494,7 +456,7 @@ local function createMainGui()
     UICorner.CornerRadius = UDim.new(1, 0)
     UICorner.Parent = MiniButton
 
-    -- Drag logic untuk MiniButton (🗿)
+    -- Drag logic untuk MiniButton
     local dragging, dragInput, dragStart, startPos
     MiniButton.InputBegan:Connect(function(input)
         if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
@@ -526,18 +488,17 @@ local function createMainGui()
         end
     end)
 
-    -- Minimize: sembunyikan MainFrame, tampilkan MiniButton
+    -- Minimize
     MinButton.MouseButton1Click:Connect(function()
         MainFrame.Visible = false
         MiniButton.Visible = true
     end)
-    -- Klik 🗿: tampilkan MainFrame, sembunyikan MiniButton
     MiniButton.MouseButton1Click:Connect(function()
         MainFrame.Visible = true
         MiniButton.Visible = false
     end)
 
-    -- Fungsi close (dengan konfirmasi)
+    -- Tombol close (konfirmasi)
     local function showConfirm(mainGui)
         local ConfirmGui = Instance.new("ScreenGui")
         ConfirmGui.Name = "ConfirmGui"
@@ -561,7 +522,6 @@ local function createMainGui()
         ConfirmLabel.Position = UDim2.new(0, 0, 0, 0)
         ConfirmLabel.Parent = ConfirmFrame
 
-        -- Tombol No (kiri)
         local NoButton = Instance.new("TextButton")
         NoButton.Text = "No"
         NoButton.Font = Enum.Font.SourceSansBold
@@ -572,7 +532,6 @@ local function createMainGui()
         NoButton.Position = UDim2.new(0.05, 0, 0.6, 0)
         NoButton.Parent = ConfirmFrame
 
-        -- Tombol Yes (kanan)
         local YesButton = Instance.new("TextButton")
         YesButton.Text = "Yes"
         YesButton.Font = Enum.Font.SourceSansBold
